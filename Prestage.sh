@@ -111,18 +111,18 @@ sudo systemctl restart sshd
 
 # Install and Configure UFW
 echo " Installing UFW..."
-sudo nala install ufw -y >> /dev/null
-sudo ufw enable >> /dev/null
+sudo nala install ufw -y > /dev/null
+sudo ufw enable > /dev/null
 ports=("22" "80" "443" "99")
 for port in "${ports[@]}"; do
-  sudo ufw allow $port/tcp >> /dev/null
+  sudo ufw allow $port/tcp > /dev/null
   echo "Port $port has been allowed"
 done
 sudo ufw reload
 
 # Install and Configure Fail2Ban
 echo " Installing Fail2Ban..."
-sudo nala install fail2ban -y >> /dev/null
+sudo nala install fail2ban -y > /dev/null
 sudo rm -f /etc/fail2ban/jail.local > /dev/null
 cat << EOF | sudo tee -a /etc/fail2ban/jail.local > /dev/null
 [DEFAULT]
