@@ -429,7 +429,7 @@ sudo openvas-setup >> /dev/null
 #Check All is running ok using ticks and crosses 
 
 #Check if Nala is installed
-if [ -x "$(command -v nala)" ]; then
+if [ -x "$(command -v nala" ]; then
   echo "Nala is installed ✅"
 else
   echo "Nala is not installed ❌"
