@@ -3,11 +3,20 @@
 
 #Remove needtoresart
 echo " Removing needrestart..."
-sudo apt purge needrestart -y >/dev/null
+sudo apt purge needrestart -y > /dev/null
 
 #Install Nala
 echo " Installing Nala..."
 sudo apt-get install -y nala >/dev/null
+
+
+#Check if Nala is installed
+echo " Checking if Nala is installed..."
+if [ -x "$(command -v nala)" ]; then
+  echo "Nala is installed ✅"
+else
+  echo "Nala is not installed ❌"
+fi
 
 # Update the system
 echo " Updating the system..."
@@ -266,6 +275,7 @@ sudo nala install nano -y >> /dev/null
 sudo rm -f /etc/nanorc
 
 cat << EOF | sudo tee -a /etc/nanorc > /dev/null
+
 set autoindent
 set constantshow
 set linenumbers
@@ -427,13 +437,7 @@ sudo openvas-setup >> /dev/null
 
 
 #Check All is running ok using ticks and crosses 
-
-#Check if Nala is installed
-if [ -x "$(command -v nala" ]; then
-  echo "Nala is installed ✅"
-else
-  echo "Nala is not installed ❌"
-fi
+echo "Checking all services are running..."
 
 #Check if SSH is installed
 if [ -x "$(command -v ssh)" ]; then
