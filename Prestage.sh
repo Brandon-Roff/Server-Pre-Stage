@@ -352,7 +352,7 @@ sudo systemctl restart smbd >> /dev/null
 #Check if Samba is installed
 echo " Checking if Samba is installed..."
 echo "-------------------------------------"
-if [ -x "$(command -v samba)" ]; then
+if [ -x "$(command -v smbpasswd )" ]; then
   echo " Samba is installed ✅"
   echo "-------------------------------------"
 else
@@ -543,7 +543,7 @@ echo ""
 # Install and Configure Webmin
 echo " Installing Webmin..."
 echo "-------------------------"
-sudo nala install webmin -y >> /dev/null
+curl -sSL "https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh" | sudo bash --force >> /dev/null
 sudo ufw allow 10000/tcp >> /dev/null
 
 #Check if Webmin is installed
@@ -561,14 +561,12 @@ echo ""
 #install and configure AppArmor
 echo " Installing AppArmor..."
 echo "-------------------------"
-sudo nala install apparmor -y >> /dev/null
-sudo systemctl start apparmor >> /dev/null
-sudo systemctl enable apparmor >> /dev/null
+sudo nala install apparmor -y >>/dev/null
 
 #Check if AppArmor is installed
 echo " Checking if AppArmor is installed..."
 echo "-------------------------------------"
-if [ -x "$(command -v apparmor)" ]; then
+if [ -x "$(command -v apparmor_status)" ]; then
   echo " AppArmor is installed ✅"
   echo "-------------------------------------"
 else
@@ -583,7 +581,7 @@ echo ""
 echo " Installing OpenVAS..."
 echo "-------------------------"
 sudo nala install openvas -y >> /dev/null
-sudo openvas-setup >> /dev/null
+sudo openvas-setup 
 
 #Check if OpenVAS is installed
 echo " Checking if OpenVAS is installed..."
