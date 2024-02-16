@@ -1,9 +1,13 @@
 #!/bin/sh
 # This script is used to prestage the files for the installation of the Sever
 
+#Remove needtoresart
+echo " Removing needrestart..."
+sudo apt purge needrestart -y >> /dev/null
+
 #Install Nala
 echo " Installing Nala..."
-sudo apt-get install -y nala 
+sudo apt-get install -y nala >> /dev/null
 
 # Update the system
 echo " Updating the system..."
