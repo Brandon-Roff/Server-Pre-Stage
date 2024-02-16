@@ -266,7 +266,6 @@ sudo nala install nano -y >> /dev/null
 sudo rm -f /etc/nanorc
 
 cat << EOF | sudo tee -a /etc/nanorc > /dev/null
-
 set autoindent
 set constantshow
 set linenumbers
