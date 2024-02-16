@@ -23,7 +23,6 @@ fi
 echo ""
 
 # Update the system
-echo " Updating the system..."
 sudo nala update  >/dev/null
 sudo nala upgrade -y >/dev/null
 
