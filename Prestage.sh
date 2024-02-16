@@ -596,68 +596,6 @@ echo ""
 #fi
 #echo ""
 
-#install and configure ModSecurity
-echo " Installing ModSecurity..."
-echo "-------------------------"
-sudo nala install libnginx-mod-http-modsecurity -y >> /dev/null
-sudo rm -f /etc/nginx/mods-available/modsecurity.conf
-cat << EOF | sudo tee -a /etc/nginx/mods-available/modsecurity.conf > /dev/null
-# ModSecurity Config
-# Enable ModSecurity
-# SecRuleEngine On
-# SecRequestBodyAccess On
-# SecResponseBodyAccess On
-# SecResponseBodyMimeType text/plain text/html text/xml
-# SecResponseBodyLimit 524288
-# SecRequestBodyLimit 131072
-# SecRequestBodyNoFilesLimit 131072
-# SecRequestBodyInMemoryLimit 131072
-# SecRequestBodyLimitAction Reject
-# SecPcreMatchLimit 1000
-# SecPcreMatchLimitRecursion 1000
-# SecTmpDir /tmp/
-# SecDataDir /tmp/
-# SecUploadDir /tmp/
-# SecDebugLog /var/log/modsec_debug.log
-# SecDebugLogLevel 0
-# SecAuditEngine RelevantOnly
-# SecAuditLogRelevantStatus "^(?:5|4(?!04))"
-# SecAuditLogParts ABIJDEFHZ
-# SecAuditLogType Serial
-# SecAuditLog /var/log/modsec_audit.log
-# SecAuditLogStorageDir /var/log/modsec_audit/
-# SecAuditLogFormat JSON
-# SecArgumentSeparator &
-# SecCookieFormat 0
-# SecUnicodeMapFile unicode.mapping 20127
-# SecHttpBl
-# SecGeoLookupDb /usr/share/GeoIP/GeoIP.dat
-# SecStreamInBodyInspection On
-# SecStreamInBodyInspectionAction Log
-# SecStreamInBodyInspectionType Targeted
-# SecRuleUpdateAction id:1 phase:1 pass nolog
-# SecRuleUpdate
-# SecRemoteRules failwithstatus 404
-# SecRemoteRulesFailAction Warn
-# SecRemoteRulesFailActionPhase RequestHeaders
-# SecRemoteRulesFailStatus 404
-# SecRemoteRulesFailText "ModSecurity: No remote rules are allowed"
-# SecRemoteRulesFailStatusPhase RequestHeaders
-
-EOF
-
-#Check if ModSecurity is installed
-echo " Checking if ModSecurity is installed..."
-echo "-------------------------------------"
-if [ -x "$(command -v modsecurity)" ]; then
-  echo " ModSecurity is installed ✅"
-  echo "-------------------------------------"
-else
-  echo " ModSecurity is not installed ❌"
-  echo "-------------------------------------"
-fi
-echo ""
-
 
 
 #Install and Configure AIDE
