@@ -105,7 +105,7 @@ Subsystem       sftp    /usr/lib/openssh/sftp-server
 EOF
 
 # Reload the SSH server configuration
-sudo daemon-reload
+sudo systemctl daemon-reload
 
 # Restart the SSH server
 sudo systemctl restart sshd
