@@ -3,11 +3,11 @@
 
 #Remove needtoresart
 echo " Removing needrestart..."
-sudo apt purge needrestart -y >> /dev/null
+sudo apt purge needrestart -y >/dev/null
 
 #Install Nala
 echo " Installing Nala..."
-sudo apt-get install -y nala >> /dev/null
+sudo apt-get install -y nala >/dev/null
 
 # Update the system
 echo " Updating the system..."
