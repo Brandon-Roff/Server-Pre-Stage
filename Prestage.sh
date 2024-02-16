@@ -2,14 +2,19 @@
 # This script is used to prestage the files for the installation of the Sever
 
 #Install Nala
-sudo apt-get install -y nala
+echo " Installing Nala..."
+sudo apt-get install -y nala >> /dev/null
+
+# Update the system
+echo " Updating the system..."
+sudo nala update -y >> /dev/null
+sudo nala upgrade -y >> /dev/null
+
 
 # Install and configure the SSH server
-
-sudo nala install ssh -y
-
-sudo rm -f /etc/ssh/sshd_config
-
+echo " Installing SSH..."
+sudo nala install ssh -y >> /dev/null
+sudo rm -f /etc/ssh/sshd_config > /dev/null
 cat << EOF | sudo tee -a /etc/ssh/sshd_config > /dev/null
 #       $OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
 
