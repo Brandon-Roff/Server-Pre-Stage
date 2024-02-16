@@ -158,8 +158,11 @@ else
   echo "-------------------------------------"
 fi
 
+echo ""
+
 # Install and Configure Fail2Ban
 echo " Installing Fail2Ban..."
+echo "-------------------------"
 sudo nala install fail2ban -y > /dev/null
 sudo rm -f /etc/fail2ban/jail.local > /dev/null
 cat << EOF | sudo tee -a /etc/fail2ban/jail.local > /dev/null
@@ -247,13 +250,52 @@ EOF
 # Restart the Fail2Ban service
 sudo systemctl restart fail2ban
 
+#Check if Fail2Ban is installed
+echo " Checking if Fail2Ban is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v fail2ban-server)" ]; then
+  echo " Fail2Ban is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " Fail2Ban is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
 # Install and Configure docker
 echo " Installing Docker..."
+echo "-------------------------"
 sudo nala install docker docker-compose -y >> /dev/null
 sudo usermod -aG docker $USER >> /dev/null
 
+#Check if Docker is installed
+echo " Checking if Docker is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v docker)" ]; then
+  echo " Docker is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " Docker is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
+#Check if Docker-compose is installed
+echo " Checking if Docker-compose is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v docker-compose)" ]; then
+  echo " Docker-compose is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " Docker-compose is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
+
 # Install and Configure Nginx
 echo " Installing Nginx..."
+echo "-------------------------"
 sudo nala install nginx -y >> /dev/null
 sudo rm -f /etc/nginx/sites-available/default
 cat << EOF | sudo tee -a /etc/nginx/sites-available/default > /dev/null
@@ -275,9 +317,23 @@ EOF
 # Restart the Nginx service
 sudo systemctl restart nginx >> /dev/null
 
+#Check if Nginx is installed
+echo " Checking if Nginx is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v nginx)" ]; then
+  echo " Nginx is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " Nginx is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
+
 # Instal and configure samba
 echo " Installing Samba..."
-sudo nala install samba -y >> /dev/null
+echo "-------------------------"
+sudo nala install samba-common -y >> /dev/null
 sudo rm -f /etc/samba/smb.conf
 cat << EOF | sudo tee -a /etc/samba/smb.conf > /dev/null
 [global]
@@ -290,19 +346,45 @@ cat << EOF | sudo tee -a /etc/samba/smb.conf > /dev/null
 EOF
 sudo mkdir -p /samba/anonymous
 
+# Restart the Samba service
+sudo systemctl restart smbd >> /dev/null
+
+#Check if Samba is installed
+echo " Checking if Samba is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v samba)" ]; then
+  echo " Samba is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " Samba is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
 
 #Install Tacticall RMM
 echo " Installing Tacticall RMM..."
-cd /opt/
+echo "-------------------------" 
 wget https://raw.githubusercontent.com/netvolt/LinuxRMM-Script/main/rmmagent-linux.sh >> /dev/null
 sudo bash rmmagent-linux.sh install amd64 "https://mesh.roftwares.com/meshagents?id=h7xJ3qhczsYCCImrCSmPq3%24dqJ%40qyDuqzjnvmRlcB1ZgVuirykisz7FC1zsh2R8O&installflags=2&meshinstall=6" "https://rmm-api.roftwares.com" 1 5 "9ca86b01567b6288d27b20ae0686ba1339379d92bc86ea0f1ef2778a9658ba8d" server >> /dev/null
 
+#Check if Tacticall RMM is Running
+echo " Checking if Tacticall RMM is Running..."
+echo "-------------------------------------"
+if [ -x "systemctl status tacticalagent.service" ]; then
+  echo " Tacticall RMM is Running ✅"
+  echo "-------------------------------------"
+else
+  echo " Tacticall RMM is not Running ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
 # configure nano 
 echo " Installing nano..."
+echo "-------------------------"
 sudo nala install nano -y >> /dev/null
 
 sudo rm -f /etc/nanorc
-
 cat << EOF | sudo tee -a /etc/nanorc > /dev/null
 
 set autoindent
@@ -310,6 +392,7 @@ set constantshow
 set linenumbers
 set historylog
 set matchbrackets
+set mouse
 set morespace
 set nohelp
 set nowrap
@@ -321,9 +404,36 @@ set tabstospaces
 set titlecolor brightwhite,blue
 EOF
 
+#Check if nano is installed
+echo " Checking if nano is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v nano)" ]; then
+  echo " nano is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " nano is not installed ❌"
+  echo "-------------------------------------"
+fi
+
+echo ""
+
 # Install network tools
 echo " Installing network tools..."
+echo "-------------------------"
 sudo nala install net-tools -y >> /dev/null
+
+#Check if net-tools is installed
+echo " Checking if net-tools is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v netstat)" ]; then
+  echo " net-tools is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " net-tools is not installed ❌"
+  echo "-------------------------------------"
+fi
+
+echo ""
 
 # Install and configure FTP server
 echo " Installing FTP server..."
