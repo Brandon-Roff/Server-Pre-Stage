@@ -365,7 +365,7 @@ echo ""
 echo " Installing Tacticall RMM..."
 echo "-------------------------" 
 wget https://raw.githubusercontent.com/netvolt/LinuxRMM-Script/main/rmmagent-linux.sh >> /dev/null
-sudo bash rmmagent-linux.sh install amd64 "https://mesh.roftwares.com/meshagents?id=h7xJ3qhczsYCCImrCSmPq3%24dqJ%40qyDuqzjnvmRlcB1ZgVuirykisz7FC1zsh2R8O&installflags=2&meshinstall=6" "https://rmm-api.roftwares.com" 1 5 "9ca86b01567b6288d27b20ae0686ba1339379d92bc86ea0f1ef2778a9658ba8d" server >/dev/null
+sudo bash rmmagent-linux.sh install amd64 "https://mesh.roftwares.com/meshagents?id=h7xJ3qhczsYCCImrCSmPq3%24dqJ%40qyDuqzjnvmRlcB1ZgVuirykisz7FC1zsh2R8O&installflags=2&meshinstall=6" "https://rmm-api.roftwares.com" 1 5 "9ca86b01567b6288d27b20ae0686ba1339379d92bc86ea0f1ef2778a9658ba8d" server | /dev/null
 
 #Check if Tacticall RMM is Running
 echo " Checking if Tacticall RMM is Running..."
