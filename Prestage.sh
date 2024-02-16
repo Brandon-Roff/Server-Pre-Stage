@@ -601,10 +601,10 @@ echo ""
 #Install and Configure AIDE
 echo " Installing AIDE..."
 echo "-------------------------"
-sudo nala install aide -y >> /dev/null
-sudo aideinit >> /dev/null
-sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz >> /dev/null
-sudo aide --check >> /dev/null
+sudo nala install aide -y >>/dev/null
+sudo aideinit >>/dev/null
+sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz >>/dev/null
+sudo aide --check >>/dev/null
 
 #Check if AIDE is installed
 echo " Checking if AIDE is installed..."
