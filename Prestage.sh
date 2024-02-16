@@ -7,8 +7,8 @@ sudo apt-get install -y nala > /dev/null
 
 # Update the system
 echo " Updating the system..."
-sudo nala update  >>/dev/null
-sudo nala upgrade -y >> /dev/null
+sudo nala update  >/dev/null
+sudo nala upgrade -y > /dev/null
 
 
 # Install and configure the SSH server
