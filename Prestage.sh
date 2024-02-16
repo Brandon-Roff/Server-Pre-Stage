@@ -3,7 +3,7 @@
 
 #Install Nala
 echo " Installing Nala..."
-sudo apt-get install -y nala > /dev/null
+sudo apt-get install -y nala 
 
 # Update the system
 echo " Updating the system..."
