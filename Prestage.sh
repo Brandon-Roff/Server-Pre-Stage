@@ -281,7 +281,6 @@ set suspend
 set tabsize 4
 set tabstospaces
 set titlecolor brightwhite,blue
-include /usr/share/nano/*.nanorc
 EOF
 
 # Install network tools
