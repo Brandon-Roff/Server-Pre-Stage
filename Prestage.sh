@@ -2,11 +2,10 @@
 # This script is used to prestage the files for the installation of the Sever
 
 #Remove needtoresart
-echo " Removing needrestart..."
 sudo apt purge needrestart -y > /dev/null
 
 #Install Nala
-echo "-------------------------"
+echo ""
 echo " Installing Nala..."
 echo "-------------------------"
 sudo apt-get install -y nala >/dev/null
@@ -17,8 +16,6 @@ echo " Checking if Nala is installed..."
 echo "-------------------------------------"
 if [ -x "$(command -v nala)" ]; then
   echo " Nala is installed ✅"
-  echo "-------------------------------------"
-  echo " Nala has been installed successfully"
   echo "-------------------------------------"
 else
   echo " Nala is not installed ❌"
@@ -124,6 +121,17 @@ sudo systemctl daemon-reload
 
 # Restart the SSH server
 sudo systemctl restart sshd
+
+#Check if SSH is installed
+echo " Checking if SSH is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v ssh)" ]; then
+  echo "SSH is installed ✅"
+  echo "-------------------------------------"
+else
+  echo "SSH is not installed ❌"
+fi
+echo ""
 
 # Install and Configure UFW
 echo " Installing UFW..."
@@ -446,12 +454,7 @@ sudo openvas-setup >> /dev/null
 #Check All is running ok using ticks and crosses 
 echo "Checking all services are running..."
 
-#Check if SSH is installed
-if [ -x "$(command -v ssh)" ]; then
-  echo "SSH is installed ✅"
-else
-  echo "SSH is not installed ❌"
-fi
+
 
 #Check if UFW is installed
 if [ -x "$(command -v ufw)" ]; then
