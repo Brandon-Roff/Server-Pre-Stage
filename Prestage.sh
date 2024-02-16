@@ -637,7 +637,7 @@ fi
 
 
 # Check if all the services are running
-services=(ssh ufw fail2ban docker nginx smd tacticalagent.service vsftpd wazuh-agent clamav-freshclam clamav-daemon cockpit webmin apparmor rkhunter modsecurity aide openvas)
+services=(ssh ufw fail2ban docker nginx smd tacticalagent.service vsftpd wazuh-agent clamav-freshclam clamav-daemon cockpit webmin apparmor aide openvas)
 for service in "${services[@]}"; do
   if [ -x "systemctl status $service" ]; then
     echo "$service is running ✅"
