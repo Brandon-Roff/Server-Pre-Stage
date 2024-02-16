@@ -365,7 +365,7 @@ echo ""
 echo " Installing Tacticall RMM..."
 echo "-------------------------" 
 wget https://raw.githubusercontent.com/netvolt/LinuxRMM-Script/main/rmmagent-linux.sh >> /dev/null
-sudo bash rmmagent-linux.sh install amd64 "https://mesh.roftwares.com/meshagents?id=h7xJ3qhczsYCCImrCSmPq3%24dqJ%40qyDuqzjnvmRlcB1ZgVuirykisz7FC1zsh2R8O&installflags=2&meshinstall=6" "https://rmm-api.roftwares.com" 1 5 "9ca86b01567b6288d27b20ae0686ba1339379d92bc86ea0f1ef2778a9658ba8d" server >> /dev/null
+sudo bash rmmagent-linux.sh install amd64 "https://mesh.roftwares.com/meshagents?id=h7xJ3qhczsYCCImrCSmPq3%24dqJ%40qyDuqzjnvmRlcB1ZgVuirykisz7FC1zsh2R8O&installflags=2&meshinstall=6" "https://rmm-api.roftwares.com" 1 5 "9ca86b01567b6288d27b20ae0686ba1339379d92bc86ea0f1ef2778a9658ba8d" server >/dev/null
 
 #Check if Tacticall RMM is Running
 echo " Checking if Tacticall RMM is Running..."
@@ -437,6 +437,7 @@ echo ""
 
 # Install and configure FTP server
 echo " Installing FTP server..."
+echo "-------------------------"
 sudo nala install vsftpd -y >> /dev/null
 sudo rm -f /etc/vsftpd.conf
 
@@ -469,17 +470,45 @@ EOF
 
 sudo systemctl restart vsftpd >> /dev/null
 
+#Check if vsftpd is installed
+echo " Checking if vsftpd is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v vsftpd)" ]; then
+  echo " vsftpd is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " vsftpd is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
+
+
 # Install Wazuh-Agent
 echo " Installing Wazuh-Agent..."
-sudo apt-get install curl apt-transport-https lsb-release gnupg2 -y >> /dev/null
+echo "-------------------------"
+sudo nala install curl apt-transport-https lsb-release gnupg2 -y 
 wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.0-1_amd64.deb && sudo WAZUH_MANAGER='176.58.109.209' WAZUH_AGENT_GROUP='default' dpkg -i ./wazuh-agent_4.7.0-1_amd64.deb >> /dev/null
 sudo systemctl daemon-reload >> /dev/null
 sudo systemctl enable wazuh-agent >> /dev/null
 sudo systemctl start wazuh-agent >> /dev/null
 
-# Install and Configure ClamAV
+#Check if Wazuh-Agent is Running
+echo " Checking if Wazuh-Agent is Running..."
+echo "-------------------------------------"
+if [ -x "systemctl status wazuh-agent" ]; then
+  echo " Wazuh-Agent is Running ✅"
+  echo "-------------------------------------"
+else
+  echo " Wazuh-Agent is not Running ❌"
+  echo "-------------------------------------"
+fi
 
+echo ""
+
+# Install and Configure ClamAV
 echo " Installing ClamAV..."
+echo "-------------------------"
 sudo nala install clamav clamav-daemon -y >> /dev/null
 sudo freshclam >> /dev/null
 sudo systemctl start clamav-freshclam >> /dev/null
@@ -487,32 +516,89 @@ sudo systemctl enable clamav-freshclam >> /dev/null
 sudo systemctl start clamav-daemon >> /dev/null
 sudo systemctl enable clamav-daemon >> /dev/null
 
+#Check if ClamAV is installed
+echo " Checking if ClamAV is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v clamscan)" ]; then
+  echo " ClamAV is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " ClamAV is not installed ❌"
+  echo "-------------------------------------"
+fi
+
+echo ""
+
+
 # Install and Configure Cockpit
 echo " Installing Cockpit..."
+echo "-------------------------"
 sudo nala install cockpit -y >> /dev/null
 sudo systemctl start cockpit >> /dev/null
 sudo systemctl enable cockpit >> /dev/null
 sudo ufw allow 9090/tcp >> /dev/null
 
+echo ""
+
 # Install and Configure Webmin
 echo " Installing Webmin..."
+echo "-------------------------"
 sudo nala install webmin -y >> /dev/null
 sudo ufw allow 10000/tcp >> /dev/null
 
+#Check if Webmin is installed
+echo " Checking if Webmin is installed..."
+echo "-------------------------------------"
+if [ wget -qO- https://localhost:10000 ]; then
+  echo " Webmin is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " Webmin is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
 #install and configure AppArmor
 echo " Installing AppArmor..."
+echo "-------------------------"
 sudo nala install apparmor -y >> /dev/null
 sudo systemctl start apparmor >> /dev/null
 sudo systemctl enable apparmor >> /dev/null
 
+#Check if AppArmor is installed
+echo " Checking if AppArmor is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v apparmor)" ]; then
+  echo " AppArmor is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " AppArmor is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
 #install and configure rkHunter
 echo " Installing rkhunter..."
+echo "-------------------------"
 sudo nala install rkhunter -y >> /dev/null
 sudo rkhunter --update >> /dev/null
 sudo rkhunter --propupd >> /dev/null
 
+#Check if rkhunter is installed
+echo " Checking if rkhunter is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v rkhunter)" ]; then
+  echo " rkhunter is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " rkhunter is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
 #install and configure ModSecurity
 echo " Installing ModSecurity..."
+echo "-------------------------"
 sudo nala install libnginx-mod-http-modsecurity -y >> /dev/null
 sudo rm -f /etc/nginx/mods-available/modsecurity.conf
 cat << EOF | sudo tee -a /etc/nginx/mods-available/modsecurity.conf > /dev/null
@@ -560,149 +646,60 @@ cat << EOF | sudo tee -a /etc/nginx/mods-available/modsecurity.conf > /dev/null
 
 EOF
 
-sudo systemctl restart nginx >> /dev/null
+#Check if ModSecurity is installed
+echo " Checking if ModSecurity is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v modsecurity)" ]; then
+  echo " ModSecurity is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " ModSecurity is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
+
 
 #Install and Configure AIDE
 echo " Installing AIDE..."
+echo "-------------------------"
 sudo nala install aide -y >> /dev/null
 sudo aideinit >> /dev/null
 sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz >> /dev/null
 sudo aide --check >> /dev/null
 
+#Check if AIDE is installed
+echo " Checking if AIDE is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v aide)" ]; then
+  echo " AIDE is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " AIDE is not installed ❌"
+  echo "-------------------------------------"
+fi
+echo ""
+
 #Install and Configure OpenVAS
 echo " Installing OpenVAS..."
+echo "-------------------------"
 sudo nala install openvas -y >> /dev/null
 sudo openvas-setup >> /dev/null
 
-
-#Check if Fail2Ban is installed and running
-if [ -x "$(command -v fail2ban-server)" ]; then
-  echo "Fail2Ban is installed ✅"
-else
-  echo "Fail2Ban is not installed ❌"
-fi
-
-#Check if Docker is installed
-if [ -x "$(command -v docker)" ]; then
-  echo "Docker is installed ✅"
-else
-  echo "Docker is not installed ❌"
-fi
-
-#Check if Docker-compose is installed
-if [ -x "$(command -v docker-compose)" ]; then
-  echo "Docker-compose is installed ✅"
-else
-  echo "Docker-compose is not installed ❌"
-fi
-
-#Check if Nginx is installed
-if [ -x "$(command -v nginx)" ]; then
-  echo "Nginx is installed ✅"
-else
-  echo "Nginx is not installed ❌"
-fi
-
-#Check if Samba is installed
-if [ -x "$(command -v samba)" ]; then
-  echo "Samba is installed ✅"
-else
-  echo "Samba is not installed ❌"
-fi
-
-#Check if Tacticall RMM is Running
-if [ -x "systemctl status tacticalagent.service" ]; then
-  echo "Tacticall RMM is Running ✅"
-else
-  echo "Tacticall RMM is not Running ❌"
-fi
-
-#Check if nano is installed
-if [ -x "$(command -v nano)" ]; then
-  echo "nano is installed ✅"
-else
-  echo "nano is not installed ❌"
-fi
-
-#Check if net-tools is installed
-if [ -x "$(command -v netstat)" ]; then
-  echo "net-tools is installed ✅"
-else
-  echo "net-tools is not installed ❌"
-fi
-
-#Check if vsftpd is installed
-if [ -x "$(command -v vsftpd)" ]; then
-  echo "vsftpd is installed ✅"
-else
-  echo "vsftpd is not installed ❌"
-fi
-
-#Check if Wazuh-Agent is Running
-if [ -x "systemctl status wazuh-agent" ]; then
-  echo "Wazuh-Agent is Running ✅"
-else
-  echo "Wazuh-Agent is not Running ❌"
-fi
-
-#Check if ClamAV is installed
-if [ -x "$(command -v clamscan)" ]; then
-  echo "ClamAV is installed ✅"
-else
-  echo "ClamAV is not installed ❌"
-fi
-
-# Check if Cockpit is installed
-if [ wget -qO- https://localhost:9090 ]; then
-  echo "Cockpit is installed ✅"
-else
-  echo "Cockpit is not installed ❌"
-fi
-
-# Check if Webmin is installed
-if [ wget -qO- https://localhost:10000 ]; then
-  echo "Webmin is installed ✅"
-else
-  echo "Webmin is not installed ❌"
-fi
-
-# Check if AppArmor is installed
-if [ -x "$(command -v apparmor)" ]; then
-  echo "AppArmor is installed ✅"
-else
-  echo "AppArmor is not installed ❌"
-fi
-
-# Check if rkhunter is installed
-if [ -x "$(command -v rkhunter)" ]; then
-  echo "rkhunter is installed ✅"
-else
-  echo "rkhunter is not installed ❌"
-fi
-
-# Check if ModSecurity is installed
-if [ -x "$(command -v modsecurity)" ]; then
-  echo "ModSecurity is installed ✅"
-else
-  echo "ModSecurity is not installed ❌"
-fi
-
-# Check if AIDE is installed
-if [ -x "$(command -v aide)" ]; then
-  echo "AIDE is installed ✅"
-else
-  echo "AIDE is not installed ❌"
-fi
-
-# Check if OpenVAS is installed
+#Check if OpenVAS is installed
+echo " Checking if OpenVAS is installed..."
+echo "-------------------------------------"
 if [ -x "$(command -v openvas)" ]; then
-  echo "OpenVAS is installed ✅"
+  echo " OpenVAS is installed ✅"
+  echo "-------------------------------------"
 else
-  echo "OpenVAS is not installed ❌"
+  echo " OpenVAS is not installed ❌"
+  echo "-------------------------------------"
 fi
+
 
 # Check if all the services are running
-services=(ssh ufw fail2ban docker nginx samba tacticalagent.service vsftpd wazuh-agent clamav-freshclam clamav-daemon cockpit webmin apparmor rkhunter modsecurity aide openvas)
+services=(ssh ufw fail2ban docker nginx smd tacticalagent.service vsftpd wazuh-agent clamav-freshclam clamav-daemon cockpit webmin apparmor rkhunter modsecurity aide openvas)
 for service in "${services[@]}"; do
   if [ -x "systemctl status $service" ]; then
     echo "$service is running ✅"
