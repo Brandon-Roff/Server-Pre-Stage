@@ -6,8 +6,9 @@ echo " Removing needrestart..."
 sudo apt purge needrestart -y > /dev/null
 
 #Install Nala
+echo "-------------------------"
 echo " Installing Nala..."
-echo -------------------------
+echo "-------------------------"
 sudo apt-get install -y nala >/dev/null
 
 
@@ -15,12 +16,12 @@ sudo apt-get install -y nala >/dev/null
 echo "Checking if Nala is installed..."
 if [ -x "$(command -v nala)" ]; then
   echo "Nala is installed ✅"
+  echo "-------------------------------------"
+  echo "Nala has been installed successfully"
+  echo "-------------------------------------"
 else
   echo "Nala is not installed ❌"
 fi
-echo -------------------------
-echo "Nala has been installed successfully"
-echo -------------------------
 echo ""
 
 # Update the system
