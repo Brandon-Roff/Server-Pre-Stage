@@ -577,46 +577,7 @@ else
 fi
 echo ""
 
-#install and configure rkHunter
-#echo " Installing rkhunter..."
-#echo "-------------------------"
-#sudo nala install rkhunter -y >> /dev/null
-#sudo rkhunter --update >> /dev/null
-#sudo rkhunter --propupd >> /dev/null
 
-#Check if rkhunter is installed
-#echo " Checking if rkhunter is installed..."
-#echo "-------------------------------------"
-#if [ -x "$(command -v rkhunter)" ]; then
-#  echo " rkhunter is installed ✅"
-#  echo "-------------------------------------"
-#else
-#  echo " rkhunter is not installed ❌"
-#  echo "-------------------------------------"
-#fi
-#echo ""
-
-
-
-#Install and Configure AIDE
-echo " Installing AIDE..."
-echo "-------------------------"
-sudo nala install aide -y >>/dev/null
-sudo aideinit >>/dev/null
-sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz >>/dev/null
-sudo aide --check >>/dev/null
-
-#Check if AIDE is installed
-echo " Checking if AIDE is installed..."
-echo "-------------------------------------"
-if [ -x "$(command -v aide)" ]; then
-  echo " AIDE is installed ✅"
-  echo "-------------------------------------"
-else
-  echo " AIDE is not installed ❌"
-  echo "-------------------------------------"
-fi
-echo ""
 
 #Install and Configure OpenVAS
 echo " Installing OpenVAS..."
@@ -637,7 +598,7 @@ fi
 
 
 # Check if all the services are running
-services=(ssh ufw fail2ban docker nginx smd tacticalagent.service vsftpd wazuh-agent clamav-freshclam clamav-daemon cockpit webmin apparmor aide openvas)
+services=(ssh ufw fail2ban docker nginx smd tacticalagent.service vsftpd wazuh-agent clamav-freshclam clamav-daemon cockpit webmin apparmor openvas)
 for service in "${services[@]}"; do
   if [ -x "systemctl status $service" ]; then
     echo "$service is running ✅"
