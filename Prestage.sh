@@ -29,6 +29,7 @@ sudo nala upgrade -y >/dev/null
 
 # Install and configure the SSH server
 echo " Installing SSH..."
+echo "-------------------------"
 sudo nala install ssh -y > /dev/null
 sudo rm -f /etc/ssh/sshd_config > /dev/null
 cat << EOF | sudo tee -a /etc/ssh/sshd_config > /dev/null
@@ -125,10 +126,10 @@ sudo systemctl restart sshd
 echo " Checking if SSH is installed..."
 echo "-------------------------------------"
 if [ -x "$(command -v ssh)" ]; then
-  echo "SSH is installed ✅"
+  echo " SSH is installed ✅"
   echo "-------------------------------------"
 else
-  echo "SSH is not installed ❌"
+  echo " SSH is not installed ❌"
 fi
 echo ""
 
