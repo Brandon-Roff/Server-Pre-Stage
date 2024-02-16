@@ -19,6 +19,7 @@ if [ -x "$(command -v nala)" ]; then
   echo "-------------------------------------"
 else
   echo " Nala is not installed ❌"
+  echo "-------------------------------------"
 fi
 echo ""
 
@@ -130,19 +131,32 @@ if [ -x "$(command -v ssh)" ]; then
   echo "-------------------------------------"
 else
   echo " SSH is not installed ❌"
+  echo "-------------------------------------"
 fi
 echo ""
 
 # Install and Configure UFW
 echo " Installing UFW..."
-sudo nala install ufw -y > /dev/null
-sudo ufw enable > /dev/null
+echo "-------------------------"
+sudo nala install ufw -y >/dev/null
+sudo ufw --force enable >/dev/null
 ports=(22 80 443 8080 9090 10000)
 for port in "${ports[@]}"; do
   sudo ufw allow $port/tcp > /dev/null
   echo "Port $port has been allowed"
 done
 sudo ufw reload
+
+#Check if UFW is installed
+echo " Checking if UFW is installed..."
+echo "-------------------------------------"
+if [ -x "$(command -v ufw)" ]; then
+  echo " UFW is installed ✅"
+  echo "-------------------------------------"
+else
+  echo " UFW is not installed ❌"
+  echo "-------------------------------------"
+fi
 
 # Install and Configure Fail2Ban
 echo " Installing Fail2Ban..."
@@ -450,18 +464,6 @@ echo " Installing OpenVAS..."
 sudo nala install openvas -y >> /dev/null
 sudo openvas-setup >> /dev/null
 
-
-#Check All is running ok using ticks and crosses 
-echo "Checking all services are running..."
-
-
-
-#Check if UFW is installed
-if [ -x "$(command -v ufw)" ]; then
-  echo "UFW is installed ✅"
-else
-  echo "UFW is not installed ❌"
-fi
 
 #Check if Fail2Ban is installed and running
 if [ -x "$(command -v fail2ban-server)" ]; then
