@@ -93,7 +93,6 @@ UsePAM yes
 
 X11Forwarding yes
 
-
 # no default banner path
 #Banner none
 
