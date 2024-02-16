@@ -13,14 +13,15 @@ sudo apt-get install -y nala >/dev/null
 
 
 #Check if Nala is installed
-echo "Checking if Nala is installed..."
+echo " Checking if Nala is installed..."
+echo "-------------------------------------"
 if [ -x "$(command -v nala)" ]; then
-  echo "Nala is installed ✅"
+  echo " Nala is installed ✅"
   echo "-------------------------------------"
-  echo "Nala has been installed successfully"
+  echo " Nala has been installed successfully"
   echo "-------------------------------------"
 else
-  echo "Nala is not installed ❌"
+  echo " Nala is not installed ❌"
 fi
 echo ""
 
