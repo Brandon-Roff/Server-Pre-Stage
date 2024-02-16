@@ -578,23 +578,23 @@ fi
 echo ""
 
 #install and configure rkHunter
-echo " Installing rkhunter..."
-echo "-------------------------"
-sudo nala install rkhunter -y >> /dev/null
-sudo rkhunter --update >> /dev/null
-sudo rkhunter --propupd >> /dev/null
+#echo " Installing rkhunter..."
+#echo "-------------------------"
+#sudo nala install rkhunter -y >> /dev/null
+#sudo rkhunter --update >> /dev/null
+#sudo rkhunter --propupd >> /dev/null
 
 #Check if rkhunter is installed
-echo " Checking if rkhunter is installed..."
-echo "-------------------------------------"
-if [ -x "$(command -v rkhunter)" ]; then
-  echo " rkhunter is installed ✅"
-  echo "-------------------------------------"
-else
-  echo " rkhunter is not installed ❌"
-  echo "-------------------------------------"
-fi
-echo ""
+#echo " Checking if rkhunter is installed..."
+#echo "-------------------------------------"
+#if [ -x "$(command -v rkhunter)" ]; then
+#  echo " rkhunter is installed ✅"
+#  echo "-------------------------------------"
+#else
+#  echo " rkhunter is not installed ❌"
+#  echo "-------------------------------------"
+#fi
+#echo ""
 
 #install and configure ModSecurity
 echo " Installing ModSecurity..."
