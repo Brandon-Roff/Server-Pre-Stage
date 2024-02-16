@@ -114,7 +114,7 @@ sudo systemctl restart sshd
 echo " Installing UFW..."
 sudo nala install ufw -y >> /dev/null
 sudo ufw enable >> /dev/null
-ports=(22 80 443 99)
+ports=("22" "80" "443" "99")
 for port in "${ports[@]}"; do
   sudo ufw allow $port/tcp >> /dev/null
   echo "Port $port has been allowed"
